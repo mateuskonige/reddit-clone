@@ -1,16 +1,16 @@
 <template>
-    <Head title="Create community" />
+    <Head title="Edit community" />
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Create community
+                Edit community
             </h2>
         </template>
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="max-w-md mx-auto bg-white m-2 p-6 shadow rounded">
-                    <form @submit.prevent="submit">
+                    <form @submit.prevent="update(props.community.id)">
                     <div>
                         <InputLabel for="name" value="Name" />
                         <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" autofocus
@@ -28,7 +28,7 @@
                     <div class="flex items-center justify-end mt-4">
                         <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }"
                             :disabled="form.processing">
-                            Store
+                            Update
                         </PrimaryButton>
                     </div>
                 </form>
@@ -46,12 +46,13 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, useForm } from '@inertiajs/inertia-vue3';
 
-const form = useForm({
-    name: '',
-    description: '',
-});
+const form = useForm(props.community);
 
-const submit = () => {
-    form.post(route('communities.store'));
+const props = defineProps({
+    community: Object,
+})
+
+const update = (id) => {
+    form.put(route('communities.update', id));
 };
 </script>

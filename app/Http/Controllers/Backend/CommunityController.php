@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Inertia\Inertia;
+use App\Models\Community;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommunityStoreRequest;
-use App\Models\Community;
-use Illuminate\Http\Request;
-use Inertia\Inertia;
 
 class CommunityController extends Controller
 {
@@ -39,7 +40,12 @@ class CommunityController extends Controller
      */
     public function store(CommunityStoreRequest $request)
     {
-        Community::create($request->validated() + ['user_id' => auth()->id()]);
+
+        $validated = $request->validated();
+
+        $validated['slug'] = Str::kebab($validated['name']);
+
+        Community::create($validated + ['user_id' => auth()->id()]);
 
         return to_route('communities.index');
     }
@@ -63,7 +69,9 @@ class CommunityController extends Controller
      */
     public function edit($id)
     {
-        //
+        $community = Community::findOrFail($id);
+
+        return Inertia::render('Communities/Edit', compact('community'));
     }
 
     /**
@@ -73,9 +81,17 @@ class CommunityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CommunityStoreRequest $request, $id)
     {
-        //
+        $community = Community::findOrFail($id);
+
+        $validated = $request->validated();
+
+        $validated['slug'] = Str::kebab($validated['name']);
+
+        $community->update($validated);
+
+        return to_route('communities.index');
     }
 
     /**
