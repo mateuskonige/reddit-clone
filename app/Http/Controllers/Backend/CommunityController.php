@@ -42,12 +42,9 @@ class CommunityController extends Controller
     {
 
         $validated = $request->validated();
-
-        $validated['slug'] = Str::kebab($validated['name']);
-
         Community::create($validated + ['user_id' => auth()->id()]);
 
-        return to_route('communities.index');
+        return to_route('communities.index')->with('message', 'Community added successfully');
     }
 
     /**
@@ -87,8 +84,6 @@ class CommunityController extends Controller
 
         $validated = $request->validated();
 
-        $validated['slug'] = Str::kebab($validated['name']);
-
         $community->update($validated);
 
         return to_route('communities.index');
@@ -102,6 +97,9 @@ class CommunityController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $community = Community::findOrFail($id);
+        $community->delete();
+
+        return to_route('communities.index');
     }
 }
