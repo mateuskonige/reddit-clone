@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\CommunityController;
+use App\Http\Controllers\Frontend\SubredditController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -19,7 +20,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
-    Route::resource('/communities', CommunityController::class);
+    Route::get('r/{slug}', [SubredditController::class, 'show'])->name('subreddits.show');
+
+    Route::resource('dashboard/communities', CommunityController::class);
 });
 
 require __DIR__ . '/auth.php';
