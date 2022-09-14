@@ -2,6 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { Head, Link } from '@inertiajs/inertia-vue3';
+import Pagination from '@/Components/Pagination.vue';
 
 defineProps({
     communities: Array,
@@ -53,7 +54,7 @@ const destroy = (id) => {
                                 </th>
                             </tr>
                         </thead>
-                        <tbody v-for="community in communities" :key="community.id">
+                        <tbody v-for="community in communities.data" :key="community.id">
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <th scope="row"
                                     class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -76,6 +77,9 @@ const destroy = (id) => {
                         </tbody>
                     </table>
                 </div>
+
+                <Pagination :links="communities.links"></Pagination>
+
             </div>
         </div>
     </AuthenticatedLayout>
