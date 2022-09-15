@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\CommunityController;
+use App\Http\Controllers\Backend\CommunityPostController;
 use App\Http\Controllers\Frontend\CommunityController as FrontendCommunityController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +16,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('r/{slug}', [FrontendCommunityController::class, 'show'])->name('subreddits.show');
+Route::get('r/{slug}', [FrontendCommunityController::class, 'show'])->name('frontend.communities.show');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', function () {
@@ -23,6 +24,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     })->name('dashboard');
 
     Route::resource('dashboard/communities', CommunityController::class);
+    Route::name('communities.')->group(function () {
+        Route::resource('dashboard/communities/{slug}/posts', CommunityPostController::class);
+    });
 });
 
 require __DIR__ . '/auth.php';

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommunityPostStoreRequest;
+use App\Models\Community;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class CommunityPostController extends Controller
 {
@@ -22,8 +26,11 @@ class CommunityPostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($slug)
     {
+        $community = Community::where('slug', $slug)->firstOrFail();
+
+        return Inertia::render('Communities/Posts/Create', compact('community'));
     }
 
     /**
@@ -32,9 +39,21 @@ class CommunityPostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CommunityPostStoreRequest $request, $slug)
     {
-        //
+        $community = Community::where('slug', $slug)->firstOrFail();
+
+        $validated = $request->validated();
+
+        $community->posts()->create([
+            'user_id' => auth()->id(),
+            'community_id' => $community->id,
+            'title' => $validated['title'],
+            'url' => $validated['url'],
+            'description' => $validated['description'],
+        ]);
+
+        return Redirect::route('frontend.communities.show', $community->slug)->with('message', "Post added successfully to {$community->name}");
     }
 
     /**

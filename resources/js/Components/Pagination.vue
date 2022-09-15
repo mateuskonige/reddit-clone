@@ -1,5 +1,5 @@
 <template>
-    <nav aria-label="Page navigation example" class="flex justify-end">
+    <nav aria-label="Page navigation example" >
         <ul class="inline-flex space-x-4 mt-4">
             <template v-for="(link, key) in links" :key="key">
                 <div v-if="link.url === null" v-html="link.label"

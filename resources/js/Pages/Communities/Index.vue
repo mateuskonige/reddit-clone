@@ -65,7 +65,7 @@ const destroy = (id) => {
                                 </td>
                                 <td class="py-4 px-6">
                                     <Link class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-4"
-                                        :href="route('subreddits.show', community.slug)">Show</Link>
+                                        :href="route('frontend.communities.show', community.slug)">Show</Link>
                                     <Link class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-4"
                                         :href="route('communities.edit', community.id)">Edit</Link>
                                     <Link method="delete" as="button" type="button" class="font-medium text-red-600 dark:text-red-500 hover:underline"
