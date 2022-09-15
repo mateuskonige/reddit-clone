@@ -33,7 +33,7 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="max-w-xl mx-auto bg-white shadow p-4 rounded">
             <div>
                 <InputLabel for="email" value="Email" />
                 <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus autocomplete="username" />

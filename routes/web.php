@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\CommunityController;
-use App\Http\Controllers\Frontend\SubredditController;
+use App\Http\Controllers\Frontend\CommunityController as FrontendCommunityController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,12 +15,12 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('r/{slug}', [FrontendCommunityController::class, 'show'])->name('subreddits.show');
+
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
-
-    Route::get('r/{slug}', [SubredditController::class, 'show'])->name('subreddits.show');
 
     Route::resource('dashboard/communities', CommunityController::class);
 });
