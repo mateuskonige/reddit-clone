@@ -18,6 +18,10 @@ defineProps({
         <template #header>
             <div class="flex items-center justify-between">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    <img class="h-8 inline-flex rounded-full"
+                        :src="`https://ui-avatars.com/api/?name=${community.name}`" alt="">
+
+
                     r/{{community.name}}
                 </h2>
                 <Link v-if="$page.props.auth.logged" :href="route('communities.posts.create', community.slug)">
@@ -30,7 +34,7 @@ defineProps({
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
-                <div class="grid grid-cols-3 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="col-span-2 space-y-8">
                         <div v-for="post in posts.data" :key="post.id"
                             class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8 max-w-3xl ">
@@ -50,7 +54,7 @@ defineProps({
                         <Pagination v-if="posts.data.length > 0" :links="posts.links"></Pagination>
                     </div>
                     <div>
-                        <div class="bg-white shadow rounded p-4">
+                        <div class="bg-white shadow rounded p-4 mt-8 md:mt-0">
                             <p>Latest posts</p>
                         </div>
                     </div>
