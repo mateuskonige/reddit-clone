@@ -1,12 +1,10 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue'
-import { Head, Link } from '@inertiajs/inertia-vue3';
-import Pagination from '@/Components/Pagination.vue';
+import { Head } from '@inertiajs/inertia-vue3';
 
 defineProps({
     community: Object,
-    posts: Object
+    post: Object
 })
 </script>
 
@@ -20,11 +18,6 @@ defineProps({
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     r/{{community.name}}
                 </h2>
-                <Link v-if="$page.props.auth.logged" :href="route('communities.posts.create', community.slug)">
-                <PrimaryButton>
-                    New post
-                </PrimaryButton>
-                </Link>
             </div>
         </template>
 
@@ -32,8 +25,7 @@ defineProps({
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
                 <div class="grid grid-cols-3 gap-4">
                     <div class="col-span-2 space-y-8">
-                        <div v-for="post in posts.data" :key="post.id"
-                            class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8 max-w-3xl ">
+                        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-8 max-w-3xl ">
                             <a href="#">
                                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400"><b>r/{{community.name}}</b>
                                     - post by <b>{{post.username}}</b></p>
@@ -41,13 +33,7 @@ defineProps({
                                     {{post.title}}</h5>
                             </a>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{post.description}}</p>
-                            <Link :href="route('frontend.communities.posts.show', [community.slug, post.slug])">
-                            <PrimaryButton>
-                                Read More
-                            </PrimaryButton>
-                            </Link>
                         </div>
-                        <Pagination v-if="posts.data.length > 0" :links="posts.links"></Pagination>
                     </div>
                     <div>
                         <div class="bg-white shadow rounded p-4">
