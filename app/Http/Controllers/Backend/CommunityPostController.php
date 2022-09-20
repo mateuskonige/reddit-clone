@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommunityPostStoreRequest;
 use App\Models\Community;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
@@ -67,27 +68,22 @@ class CommunityPostController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit($community_slug, $slug)
     {
-        //
+        $community = Community::where('slug', $community_slug)->firstOrFail();
+        $post = Post::where('slug', $slug)->with('user')->firstOrFail();
+
+        return Inertia::render('Communities/Posts/Edit', compact('community', 'post'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(CommunityPostStoreRequest $request, $community_slug, $slug)
     {
-        //
+        $community = Community::where('slug', $community_slug)->firstOrFail();
+        $post = Post::where('slug', $slug)->with('user')->firstOrFail();
+
+        $post->update($request->validated());
+
+        return Redirect::route('frontend.communities.posts.show', [$community->slug, $slug])->with('message', "Post edited successfully to {$community->name}");
     }
 
     /**

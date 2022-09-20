@@ -38,7 +38,9 @@ defineProps({
                                         - post by <b>{{post.user.name}}</b>
                                     </p>
                                     <div class="space-x-3">
+                                        <Link :href="route('communities.posts.edit', [community.slug, post.slug])">
                                         <PrimaryButton>Edit</PrimaryButton>
+                                        </Link>
                                         <PrimaryButton>Delete</PrimaryButton>
                                     </div>
                                 </div>

@@ -46,6 +46,8 @@ defineProps({
                             </a>
                             <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{post.description}}</p>
                             <Link :href="route('frontend.communities.posts.show', [community.slug, post.slug])">
+                            <span class="mr-4">Comments(2)</span></Link>
+                            <Link :href="route('frontend.communities.posts.show', [community.slug, post.slug])">
                             <PrimaryButton>
                                 Read More
                             </PrimaryButton>
